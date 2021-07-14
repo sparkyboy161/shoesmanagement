@@ -162,7 +162,7 @@ const renderOrderBody = (item, index) => (
 )
 
 const Dashboard = () => {
-  const themeReducer = useSelector((state) => state.ThemeReducer.mode)
+  const theme = useSelector((state) => state.theme.mode)
 
   return (
     <div>
@@ -186,7 +186,7 @@ const Dashboard = () => {
             {/* chart */}
             <Chart
               options={
-                themeReducer === 'theme-mode-dark'
+                theme === 'theme-mode-dark'
                   ? {
                       ...chartOptions.options,
                       theme: { mode: 'dark' },
