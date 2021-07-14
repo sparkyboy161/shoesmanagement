@@ -38,6 +38,13 @@
     --border-radius: 15px;
     --topnav-height: 110px;
     --transition-cubic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --form-bg: rgba(0, 0, 0, 0.8);
+     --border-color: #2980b9;
+    --form-color: #c6c6c6;
+    --form-input-bg: rgba(2, 2, 2, 0.22);
+
+    --form-logo-size: 200px;
+    --form-max-width: 500px;
 }
 
 * {

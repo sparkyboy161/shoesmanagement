@@ -1,0 +1,37 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.login__container {
+    font-family: "Roboto", sans-serif;
+    height: 100vh;
+    position: relative;
+    display: grid;
+    place-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    user-select: none;
+}
+
+.form {
+    padding: 50px 60px;
+    background-color: var(--form-bg);
+    border-radius: var(--border-radius);
+    color: var(--form-color);
+    text-align: center;
+    width: 100%;
+    max-width: var(--form-max-width);
+}
+
+.form__logo {
+    display: block;
+    margin-bottom: 50px;
+}
+
+.form__logo > img {
+    width: var(--form-logo-size);
+}

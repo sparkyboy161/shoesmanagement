@@ -4,16 +4,19 @@ import './layout.css'
 
 import Sidebar from '../sidebar/Sidebar'
 import TopNav from '../topnav/TopNav'
-import Routes from '../Routes'
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setMode } from '../../redux/themeSlice'
+import PrivateRoutes from '../PrivateRoutes'
+import PublicRoutes from '../PublicRoutes'
 
 const Layout = () => {
   const theme = useSelector((state) => state.theme)
+  const auth = useSelector((state) => state.auth)
+  const { isLogin } = auth
 
   const dispatch = useDispatch()
 
@@ -33,19 +36,24 @@ const Layout = () => {
 
   return (
     <BrowserRouter>
-      <Route
-        render={(props) => (
-          <div className={`layout ${theme.mode} ${theme.color}`}>
-            <Sidebar {...props} />
-            <div className="layout__content">
-              <TopNav />
-              <div className="layout__content-main">
-                <Routes />
+      {isLogin ? (
+        <Route
+          render={(props) => (
+            <div className={`layout ${theme.mode} ${theme.color}`}>
+              <Sidebar {...props} />
+              <div className="layout__content">
+                <TopNav />
+                <div className="layout__content-main">
+                  <PrivateRoutes />
+                </div>
               </div>
+              )
             </div>
-          </div>
-        )}
-      />
+          )}
+        />
+      ) : (
+        <PublicRoutes />
+      )}
     </BrowserRouter>
   )
 }
