@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 
 import './layout.css'
 
@@ -10,39 +10,44 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import ThemeAction from '../../redux/actions/ThemeAction'
+import { setMode } from '../../redux/themeSlice'
 
 const Layout = () => {
+  const theme = useSelector((state) => state.theme)
 
-    const themeReducer = useSelector(state => state.ThemeReducer)
+  const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
+  useEffect(() => {
+    const themeClass = localStorage.getItem('themeMode', 'theme-mode-light')
 
-    useEffect(() => {
-        const themeClass = localStorage.getItem('themeMode', 'theme-mode-light')
+    const colorClass = localStorage.getItem('colorMode', 'theme-mode-light')
 
-        const colorClass = localStorage.getItem('colorMode', 'theme-mode-light')
+    const setModeAction = setMode(themeClass)
 
-        dispatch(ThemeAction.setMode(themeClass))
+    const setColorAction = setMode(colorClass)
 
-        dispatch(ThemeAction.setColor(colorClass))
-    }, [dispatch])
+    dispatch(setModeAction)
 
-    return (
-        <BrowserRouter>
-            <Route render={(props) => (
-                <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
-                    <Sidebar {...props}/>
-                    <div className="layout__content">
-                        <TopNav/>
-                        <div className="layout__content-main">
-                            <Routes/>
-                        </div>
-                    </div>
-                </div>
-            )}/>
-        </BrowserRouter>
-    )
+    dispatch(setColorAction)
+  }, [dispatch])
+
+  return (
+    <BrowserRouter>
+      <Route
+        render={(props) => (
+          <div className={`layout ${theme.mode} ${theme.color}`}>
+            <Sidebar {...props} />
+            <div className="layout__content">
+              <TopNav />
+              <div className="layout__content-main">
+                <Routes />
+              </div>
+            </div>
+          </div>
+        )}
+      />
+    </BrowserRouter>
+  )
 }
 
 export default Layout
