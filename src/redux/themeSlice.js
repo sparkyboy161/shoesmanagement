@@ -14,5 +14,10 @@ const theme = createSlice({
 })
 
 const { reducer, actions } = theme;
+
 export const { setMode, setColor } = actions;
+
+export const selectThemeMode = state => state.theme.mode;
+export const selectThemeColor = state => state.theme.color;
+
 export default reducer;
