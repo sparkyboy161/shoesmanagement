@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 
 import backgroundImage from '../assets/images/background-image.jpeg'
 import logo from '../assets/images/logo.png'
@@ -7,13 +6,12 @@ import logo from '../assets/images/logo.png'
 import Button from '../components/input/Button'
 import Checkbox from '../components/input/Checkbox'
 import Input from '../components/input/Input'
-import { setLoginSuccess } from '../redux/authSlice'
+import firebase, { auth } from '../firebase/config'
 
 import './login.css'
 
 function Login(props) {
   const [inputs, setInputs] = useState({})
-  const dispatch = useDispatch()
 
   const handleInputChange = (e) => {
     setInputs({
@@ -24,15 +22,29 @@ function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('1')
-    console.log('Inputs: ', inputs)
   }
 
-  const handleLogin = () => {
-    const setLoginSuccessAction = setLoginSuccess(null)
-    localStorage.setItem('isLogin', 1234)
-    dispatch(setLoginSuccessAction)
-    props.history.push('/')
+  const handleGoogleLogin = () => {
+    const authProvider = new firebase.auth.GoogleAuthProvider()
+
+    auth
+      .signInWithPopup(authProvider)
+      .then((result) => {
+        const credential = result.credential
+
+        console.log('credential: ', credential)
+
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const token = credential.accessToken
+        console.log('token: ', token)
+        // The signed-in user info.
+        const user = result.user
+        console.log('user: ', user)
+        // ...
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   return (
@@ -60,9 +72,21 @@ function Login(props) {
         <Button title="Đăng nhập" onSubmit={handleSubmit} />
         <span className="form-delimiter">hoặc đăng nhập với</span>
         <div className="form-social">
-          <Button icon="bx bxl-facebook" platform="fb" onSubmit={handleLogin} />
-          <Button icon="bx bxl-twitter" platform="tw" />
-          <Button icon="bx bxl-google" platform="gg" />
+          <Button
+            icon="bx bxl-facebook"
+            platform="fb"
+            onSubmit={handleGoogleLogin}
+          />
+          <Button
+            icon="bx bxl-twitter"
+            platform="tw"
+            onSubmit={handleGoogleLogin}
+          />
+          <Button
+            icon="bx bxl-google"
+            platform="gg"
+            onSubmit={handleGoogleLogin}
+          />
         </div>
         <span className="form-txt">
           Chưa có tài khoản?
